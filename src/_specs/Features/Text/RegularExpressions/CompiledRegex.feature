@@ -32,3 +32,15 @@ Examples:
 	| input   | pattern                           | expected group values |
 	| abc123  | (?<alpha>[a-z]+)(?<numeric>\d+)   | alpha:abc;numeric:123 |
 	| 456.def | (?<numeric>\d+)\.(?<alpha>[a-z]+) | numeric:456;alpha:def |
+
+@compiledRegex
+Scenario Outline: Dictionary Matches
+	Given I have created a string equal to: <input>
+	And I have created a CompiledRegex with the pattern: <pattern>
+	When I retrieve a dictionary match of the string using the CompiledRegex
+	Then all expected group values (<first expected group values>) should be found in the first resulting dictionary
+	And all expected group values (<second expected group values>) should be found in the second resulting dictionary
+Examples:
+	| input          | pattern                           | first expected group values | second expected group values |
+	| abc123def456   | (?<alpha>[a-z]+)(?<numeric>\d+)   | alpha:abc;numeric:123       | alpha:def;numeric:456        |
+	| 456.def123.abc | (?<numeric>\d+)\.(?<alpha>[a-z]+) | numeric:456;alpha:def       | numeric:123;alpha:abc        |
