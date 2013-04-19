@@ -1,0 +1,7 @@
+﻿@using Models
+@using RazorEngine.Templating
+@inherits TemplateBase<AssemblyModel>
+@{
+	Layout = "Layout.cshtml";
+	ViewBag.Title = string.Format("Assembly: {0}", Model.AssemblyName);
+}
