@@ -19,31 +19,15 @@
 
 #endregion
 
-using System.Collections.Generic;
+using System;
 
-namespace Patterns.Tools.DocTemplates.Models
+namespace Patterns.Tools.DocTemplates.Fx
 {
-	public class AssemblyModel
+	public static class ReflectionExtensions
 	{
-		private readonly IList<NamespaceModel> _namespaces;
-
-		public AssemblyModel()
+		public static bool IsStruct(this Type type)
 		{
-			_namespaces = new List<NamespaceModel>();
-		}
-
-		public string AssemblyName { get; set; }
-		public string AssemblyVersion { get; set; }
-		public bool IsPublishedOnNuGet { get; set; }
-
-		public IEnumerable<NamespaceModel> Namespaces
-		{
-			get { return _namespaces; }
-		}
-
-		internal void Add(NamespaceModel namespaceModel)
-		{
-			_namespaces.Add(namespaceModel);
+			return type.IsValueType && !(type.IsPrimitive || type.IsEnum);
 		}
 	}
 }

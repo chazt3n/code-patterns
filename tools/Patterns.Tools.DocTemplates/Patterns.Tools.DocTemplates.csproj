@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Fx\ReflectionExtensions.cs" />
     <Compile Include="Models\AssemblyModel.cs" />
     <Compile Include="Models\ClassModel.cs" />
     <Compile Include="Models\ConstructorModel.cs" />
@@ -84,9 +85,7 @@
       <LastGenOutput>TemplateResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Fx\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -25,24 +25,42 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 
+using Patterns.Tools.DocTemplates.Fx;
+
 namespace Patterns.Tools.DocTemplates.Models
 {
 	public class ModelBuilder
 	{
 		private const BindingFlags _binding = BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static;
 
+		public static AssemblyModel BuildAssemblyModel(Assembly assembly, bool isPublishedOnNuGet = true)
+		{
+			AssemblyName name = assembly.GetName();
+
+			var model = new AssemblyModel
+			{
+				AssemblyName = name.Name,
+				AssemblyVersion = name.Version.ToString(),
+				IsPublishedOnNuGet = isPublishedOnNuGet
+			};
+
+			foreach (var type in assembly.GetTypes()) AddAssemblyType(model, type);
+
+			return model;
+		}
+
 		public static void AddAssemblyType(AssemblyModel assembly, Type type)
 		{
-			AddAssemblyType(assembly, (TypeModel) BuildTypeModel(type));
+			AddAssemblyType(assembly, BuildTypeModel(type));
 		}
 
 		public static void AddAssemblyType(AssemblyModel assembly, TypeModel type)
 		{
-			NamespaceModel owner = assembly.Match(type);
-			//TODO: pick it up from here
+			NamespaceModel owner = BuildNamespace(assembly, type);
+			owner.Add(type);
 		}
 
-		public static object BuildTypeModel(Type type, bool filterObjectMatches = true)
+		public static TypeModel BuildTypeModel(Type type, bool filterObjectMatches = true)
 		{
 			if (type.IsEnum) return BuildTypeModel<EnumModel>(type, filterObjectMatches);
 
@@ -65,7 +83,7 @@ namespace Patterns.Tools.DocTemplates.Models
 
 			if (!(type.IsEnum || type.IsInterface)) BuildConstructors(state, constructorHandler);
 
-			if (type.IsClass || (type.IsValueType && !(type.IsPrimitive || type.IsEnum))) BuildFields(state, fieldHandler);
+			if (type.IsClass || type.IsStruct()) BuildFields(state, fieldHandler);
 
 			if (!type.IsEnum) BuildProperties(state, propertyHandler);
 
@@ -74,6 +92,39 @@ namespace Patterns.Tools.DocTemplates.Models
 			if (type.IsEnum) BuildEnumValues(state, enumValueHandler);
 
 			return state.Model;
+		}
+
+		private static NamespaceModel BuildNamespace(AssemblyModel assemblyModel, TypeModel type)
+		{
+			bool emptyNamespace = string.IsNullOrEmpty(type.Namespace);
+			string[] parts = emptyNamespace ? null : type.Namespace.Split('.');
+			string firstPass = emptyNamespace ? null : parts[0];
+			NamespaceModel firstMatch = assemblyModel.Namespaces.FirstOrDefault(item => item.NamespaceName == firstPass);
+
+			if (firstMatch == null)
+			{
+				firstMatch = new NamespaceModel {NamespaceName = firstPass};
+				assemblyModel.Add(firstMatch);
+			}
+
+			return MatchOrCreateNamespace(new NamespaceBuilderState(type.Namespace, parts, firstPass, firstMatch, 0));
+		}
+
+		private static NamespaceModel MatchOrCreateNamespace(NamespaceBuilderState state)
+		{
+			if (state.CurrentNamespace.NamespaceName == state.Target) return state.CurrentNamespace;
+
+			int depth = state.Depth + 1;
+			string pattern = new StringBuilder(state.Pattern).AppendFormat(".{0}", state.Parts.ElementAt(depth)).ToString();
+			NamespaceModel match = state.CurrentNamespace.Namespaces.FirstOrDefault(item => item.NamespaceName == pattern);
+
+			if (match == null)
+			{
+				match = new NamespaceModel {NamespaceName = pattern};
+				state.CurrentNamespace.Add(match);
+			}
+
+			return MatchOrCreateNamespace(new NamespaceBuilderState(state.Target, state.Parts, pattern, match, depth));
 		}
 
 		private static void BuildEnumValues<TModel>(TypeBuilderState<TModel> state, Action<TModel, IDictionary<int, string>> enumValueHandler)
@@ -159,19 +210,6 @@ namespace Patterns.Tools.DocTemplates.Models
 				.Any(member => member.MemberType == info.MemberType && member.DeclaringType == info.DeclaringType && member.Name == info.Name);
 		}
 
-		private static List<string> BuildGraduatedNamespaces(Type type)
-		{
-			var graduatedNamespaces = new List<string>();
-			var namespaceBuilder = new StringBuilder();
-			foreach (string segment in type.Namespace.Split('.'))
-			{
-				if (namespaceBuilder.Length > 0) namespaceBuilder.Append(".");
-				namespaceBuilder.Append(segment);
-				graduatedNamespaces.Add(namespaceBuilder.ToString());
-			}
-			return graduatedNamespaces;
-		}
-
 		private struct TypeBuilderState<TModel> where TModel : TypeModel, new()
 		{
 			public TypeBuilderState(Type type, bool filterObjectMatches) : this()
@@ -184,6 +222,24 @@ namespace Patterns.Tools.DocTemplates.Models
 			public Type Type { get; private set; }
 			public bool FilterObjectMatches { get; private set; }
 			public TModel Model { get; private set; }
+		}
+
+		private struct NamespaceBuilderState
+		{
+			public NamespaceBuilderState(string target, IEnumerable<string> parts, string pattern, NamespaceModel currentNamespace, int depth) : this()
+			{
+				Parts = parts;
+				CurrentNamespace = currentNamespace;
+				Depth = depth;
+				Pattern = pattern;
+				Target = target;
+			}
+
+			public IEnumerable<string> Parts { get; private set; }
+			public NamespaceModel CurrentNamespace { get; private set; }
+			public int Depth { get; private set; }
+			public string Pattern { get; private set; }
+			public string Target { get; private set; }
 		}
 	}
 }

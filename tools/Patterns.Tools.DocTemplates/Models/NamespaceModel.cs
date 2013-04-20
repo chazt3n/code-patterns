@@ -81,19 +81,14 @@ namespace Patterns.Tools.DocTemplates.Models
 			get { return _structs; }
 		}
 
-		public NamespaceModel Match(TypeModel type)
-		{
-			
-		}
-
 		internal void Add(NamespaceModel childNamespace)
 		{
 			_namespaces.Add(childNamespace);
 		}
 
-		internal void Add<TModel>(TModel model) where TModel : TypeModel
+		public void Add(TypeModel model)
 		{
-			Type modelType = typeof (TModel);
+			Type modelType = model.GetType();
 			Action<NamespaceModel, object> modelBinder = _modelBinders.ContainsKey(modelType) ? _modelBinders[modelType] : null;
 			if (modelBinder != null) modelBinder(this, model);
 		}
