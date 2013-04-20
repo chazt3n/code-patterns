@@ -49,7 +49,21 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models\AssemblyModel.cs" />
+    <Compile Include="Models\ClassModel.cs" />
+    <Compile Include="Models\ConstructorModel.cs" />
+    <Compile Include="Models\EnumModel.cs" />
+    <Compile Include="Models\FieldModel.cs" />
+    <Compile Include="Models\IHaveConstructors.cs" />
+    <Compile Include="Models\IHaveEnumValues.cs" />
+    <Compile Include="Models\IHaveFields.cs" />
+    <Compile Include="Models\IHaveMethods.cs" />
+    <Compile Include="Models\IHaveProperties.cs" />
+    <Compile Include="Models\InterfaceModel.cs" />
+    <Compile Include="Models\MethodModel.cs" />
+    <Compile Include="Models\ModelBuilder.cs" />
     <Compile Include="Models\NamespaceModel.cs" />
+    <Compile Include="Models\PropertyModel.cs" />
+    <Compile Include="Models\StructModel.cs" />
     <Compile Include="Models\TypeModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TemplateManager.cs" />

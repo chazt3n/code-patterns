@@ -19,12 +19,12 @@
 
 #endregion
 
+using System.Collections.Generic;
+
 namespace Patterns.Tools.DocTemplates.Models
 {
-	public abstract class TypeModel
+	public class EnumModel : TypeModel, IHaveEnumValues
 	{
-		public string Name { get; set; }
-		public string FullName { get; set; }
-		public string Namespace { get; set; }
+		public IDictionary<int, string> Values { get; set; }
 	}
 }

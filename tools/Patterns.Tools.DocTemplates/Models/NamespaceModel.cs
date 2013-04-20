@@ -23,14 +23,79 @@
 
 #endregion
 
+using System;
 using System.Collections.Generic;
 
 namespace Patterns.Tools.DocTemplates.Models
 {
 	public class NamespaceModel
 	{
+		private static readonly IDictionary<Type, Action<NamespaceModel, object>> _modelBinders
+			= new Dictionary<Type, Action<NamespaceModel, object>>
+			{
+				{typeof (ClassModel), (model, data) => model._classes.Add(data as ClassModel)},
+				{typeof (InterfaceModel), (model, data) => model._interfaces.Add(data as InterfaceModel)},
+				{typeof (StructModel), (model, data) => model._structs.Add(data as StructModel)},
+				{typeof (EnumModel), (model, data) => model._enums.Add(data as EnumModel)}
+			};
+
+		private readonly IList<NamespaceModel> _namespaces;
+		private readonly IList<InterfaceModel> _interfaces;
+		private readonly IList<ClassModel> _classes;
+		private readonly IList<EnumModel> _enums;
+		private readonly IList<StructModel> _structs;
+
+		public NamespaceModel()
+		{
+			_namespaces = new List<NamespaceModel>();
+			_interfaces = new List<InterfaceModel>();
+			_classes = new List<ClassModel>();
+			_enums = new List<EnumModel>();
+			_structs = new List<StructModel>();
+		}
+
 		public string NamespaceName { get; set; }
-		public IEnumerable<NamespaceModel> Namespaces { get; set; }
-		public IEnumerable<TypeModel> Types { get; set; }
+
+		public IEnumerable<NamespaceModel> Namespaces
+		{
+			get { return _namespaces; }
+		}
+
+		public IEnumerable<InterfaceModel> Interfaces
+		{
+			get { return _interfaces; }
+		}
+
+		public IEnumerable<ClassModel> Classes
+		{
+			get { return _classes; }
+		}
+
+		public IEnumerable<EnumModel> Enums
+		{
+			get { return _enums; }
+		}
+
+		public IEnumerable<StructModel> Structs
+		{
+			get { return _structs; }
+		}
+
+		public NamespaceModel Match(TypeModel type)
+		{
+			
+		}
+
+		internal void Add(NamespaceModel childNamespace)
+		{
+			_namespaces.Add(childNamespace);
+		}
+
+		internal void Add<TModel>(TModel model) where TModel : TypeModel
+		{
+			Type modelType = typeof (TModel);
+			Action<NamespaceModel, object> modelBinder = _modelBinders.ContainsKey(modelType) ? _modelBinders[modelType] : null;
+			if (modelBinder != null) modelBinder(this, model);
+		}
 	}
 }

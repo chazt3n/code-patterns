@@ -21,10 +21,5 @@
 
 namespace Patterns.Tools.DocTemplates.Models
 {
-	public abstract class TypeModel
-	{
-		public string Name { get; set; }
-		public string FullName { get; set; }
-		public string Namespace { get; set; }
-	}
+	public class ConstructorModel {}
 }

@@ -19,12 +19,15 @@
 
 #endregion
 
+using System.Collections.Generic;
+
 namespace Patterns.Tools.DocTemplates.Models
 {
-	public abstract class TypeModel
+	public class StructModel : TypeModel, IHaveConstructors, IHaveFields, IHaveMethods, IHaveProperties
 	{
-		public string Name { get; set; }
-		public string FullName { get; set; }
-		public string Namespace { get; set; }
+		public IEnumerable<ConstructorModel> Constructors { get; set; }
+		public IEnumerable<FieldModel> Fields { get; set; }
+		public IEnumerable<MethodModel> Methods { get; set; }
+		public IEnumerable<PropertyModel> Properties { get; set; }
 	}
 }
