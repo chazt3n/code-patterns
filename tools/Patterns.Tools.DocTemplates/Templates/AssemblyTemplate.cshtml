@@ -1,7 +1,24 @@
-﻿@using Models
-@using RazorEngine.Templating
-@inherits TemplateBase<AssemblyModel>
+﻿@using Patterns.Tools.DocTemplates.Models
+@inherits RazorEngine.Templating.TemplateBase<AssemblyModel>
 @{
 	Layout = "Layout.cshtml";
-	ViewBag.Title = string.Format("Assembly: {0}", Model.AssemblyName);
+	ViewBag.Title = string.Format("Assembly: {0}", Model.Name);
 }
+
+@if (Model.IsPublishedOnNuGet)
+{
+	<p>
+		<a href="http://nuget.org/packages/Patterns">Available on NuGet</a>
+	</p>
+}
+
+<p>
+	<span class="assembly-description">@Model.Description</span>
+</p>
+
+<ul>
+	@foreach (NamespaceModel namespaceModel in Model.Namespaces)
+	{
+		Include("NamespaceTemplate", namespaceModel);
+	}
+</ul>

@@ -19,32 +19,15 @@
 
 #endregion
 
-using System.Collections.Generic;
+using RazorEngine.Templating;
 
-namespace Patterns.Tools.DocTemplates.Models
+namespace Patterns.Tools.DocTemplates.Fx
 {
-	public class AssemblyModel
+	public class DepthAwareTemplateBase : TemplateBase
 	{
-		private readonly IList<NamespaceModel> _namespaces;
-
-		public AssemblyModel()
+		protected string AppRelativeRoot()
 		{
-			_namespaces = new List<NamespaceModel>();
-		}
-
-		public string Name { get; set; }
-		public string Version { get; set; }
-		public string Description { get; set; }
-		public bool IsPublishedOnNuGet { get; set; }
-
-		public IEnumerable<NamespaceModel> Namespaces
-		{
-			get { return _namespaces; }
-		}
-
-		internal void Add(NamespaceModel namespaceModel)
-		{
-			_namespaces.Add(namespaceModel);
+			return string.Empty;
 		}
 	}
 }

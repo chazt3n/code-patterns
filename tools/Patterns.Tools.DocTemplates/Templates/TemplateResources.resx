@@ -124,4 +124,7 @@
   <data name="Layout" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Layout.cshtml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
+  <data name="NamespaceTemplate" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>NamespaceTemplate.cshtml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
 </root>

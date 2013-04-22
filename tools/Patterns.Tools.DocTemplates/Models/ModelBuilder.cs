@@ -39,8 +39,9 @@ namespace Patterns.Tools.DocTemplates.Models
 
 			var model = new AssemblyModel
 			{
-				AssemblyName = name.Name,
-				AssemblyVersion = name.Version.ToString(),
+				Name = name.Name,
+				Version = name.Version.ToString(),
+				Description = ReadAssemblyDescription(assembly),
 				IsPublishedOnNuGet = isPublishedOnNuGet
 			};
 
@@ -92,6 +93,14 @@ namespace Patterns.Tools.DocTemplates.Models
 			if (type.IsEnum) BuildEnumValues(state, enumValueHandler);
 
 			return state.Model;
+		}
+
+		private static string ReadAssemblyDescription(Assembly assembly)
+		{
+			return assembly.GetCustomAttributesData()
+				.Where(data => data.AttributeType == typeof (AssemblyDescriptionAttribute))
+				.Select(data => data.ConstructorArguments.First().Value.ToString())
+				.FirstOrDefault();
 		}
 
 		private static NamespaceModel BuildNamespace(AssemblyModel assemblyModel, TypeModel type)

@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Fx\DepthAwareTemplateBase.cs" />
     <Compile Include="Fx\ReflectionExtensions.cs" />
     <Compile Include="Models\AssemblyModel.cs" />
     <Compile Include="Models\ClassModel.cs" />
@@ -78,6 +79,7 @@
     <None Include="packages.config" />
     <None Include="Templates\AssemblyTemplate.cshtml" />
     <None Include="Templates\Layout.cshtml" />
+    <None Include="Templates\NamespaceTemplate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Templates\TemplateResources.resx">

@@ -81,16 +81,16 @@ namespace Patterns.Tools.DocTemplates.Models
 			get { return _structs; }
 		}
 
-		internal void Add(NamespaceModel childNamespace)
-		{
-			_namespaces.Add(childNamespace);
-		}
-
-		public void Add(TypeModel model)
+		internal void Add(TypeModel model)
 		{
 			Type modelType = model.GetType();
 			Action<NamespaceModel, object> modelBinder = _modelBinders.ContainsKey(modelType) ? _modelBinders[modelType] : null;
 			if (modelBinder != null) modelBinder(this, model);
+		}
+
+		internal void Add(NamespaceModel childNamespace)
+		{
+			_namespaces.Add(childNamespace);
 		}
 	}
 }
