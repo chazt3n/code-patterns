@@ -23,6 +23,7 @@
 
 #endregion
 
+using Patterns.Testing.Autofac;
 using Patterns.Testing.Moq;
 
 namespace Patterns.Specifications.Models.Mocking
@@ -31,7 +32,7 @@ namespace Patterns.Specifications.Models.Mocking
 	{
 		public MoqContext()
 		{
-			Container = new MoqContainer();
+			Container = new AutofacMoqContainer();
 		}
 
 		public IMoqContainer Container { get; private set; }
