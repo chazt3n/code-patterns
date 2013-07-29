@@ -144,6 +144,12 @@
   <ItemGroup>
     <None Include="Resources\MethodStopTraceFormat.txt" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Patterns.Values\Patterns.Values.csproj">
+      <Project>{3740127f-548c-4d9c-a7d0-35f716c787e9}</Project>
+      <Name>Patterns.Values</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
