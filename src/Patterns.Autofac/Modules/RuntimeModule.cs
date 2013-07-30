@@ -37,7 +37,7 @@ namespace Patterns.Autofac.Modules
 	{
 		protected override void Load(ContainerBuilder builder)
 		{
-			builder.RegisterType<DefaultDateTimeInfo>().As<IDateTimeInfo>();
+			builder.RegisterType<DateTimeInfo>().As<IDateTimeInfo>();
 		}
 	}
 }

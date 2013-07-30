@@ -24,6 +24,7 @@
 #endregion
 
 using System;
+
 using Patterns.Values;
 
 namespace Patterns.Specifications.Models.Runtime

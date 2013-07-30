@@ -19,5 +19,3 @@ Scenario Outline: DateTime as age
 	| 4     | 0    | 0      | 4              | 0               | 0             |
 	| 0     | 4    | 0      | 0              | 4               | 0             |
 	| 0     | 0    | 4      | 0              | 0               | 4             |
-	
-	
