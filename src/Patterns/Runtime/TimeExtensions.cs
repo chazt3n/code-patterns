@@ -24,26 +24,27 @@
 #endregion
 
 using System;
+
 using Patterns.Values;
 
 namespace Patterns.Runtime
 {
 	/// <summary>
-	///     Provides extensions for accessing and manipulating time-oriented constructs like <see cref="DateTime" /> and
-	///     <see
-	///         cref="TimeSpan" />
-	///     .
+	///    Provides extensions for accessing and manipulating time-oriented constructs like <see cref="DateTime" /> and
+	///    <see
+	///       cref="TimeSpan" />
+	///    .
 	/// </summary>
 	public static class TimeExtensions
 	{
 		/// <summary>
-		///     Returns a <see cref="DateTime" /> with the same <see cref="DateTime.Year" /> , <see cref="DateTime.Month" /> ,
-		///     <see
-		///         cref="DateTime.Day" />
-		///     , <see cref="DateTime.Hour" /> , <see cref="DateTime.Minute" /> , and
-		///     <see
-		///         cref="DateTime.Second" />
-		///     values.
+		///    Returns a <see cref="DateTime" /> with the same <see cref="DateTime.Year" /> , <see cref="DateTime.Month" /> ,
+		///    <see
+		///       cref="DateTime.Day" />
+		///    , <see cref="DateTime.Hour" /> , <see cref="DateTime.Minute" /> , and
+		///    <see
+		///       cref="DateTime.Second" />
+		///    values.
 		/// </summary>
 		/// <param name="value"> The value. </param>
 		public static DateTime AccurateToOneSecond(this DateTime value)
@@ -52,15 +53,40 @@ namespace Patterns.Runtime
 		}
 
 		/// <summary>
-		///     Returns a given DateTime as age.
+		///    Returns a <see cref="DateTime" /> with the same <see cref="DateTime.Year" /> , <see cref="DateTime.Month" /> , and
+		///    <see
+		///       cref="DateTime.Day" />
+		///    values.
+		/// </summary>
+		/// <param name="value">The value.</param>
+		/// <returns></returns>
+		public static DateTime AccurateToOneDay(this DateTime value)
+		{
+			return new DateTime(value.Year, value.Month, value.Day);
+		}
+
+		/// <summary>
+		///    Returns a given DateTime as age.
 		/// </summary>
 		/// <param name="value">The value.</param>
 		/// <returns></returns>
 		public static Age ToAge(this DateTime value)
 		{
-			TimeSpan ageAsTimeSpan = DateTime.Now - new DateTime(value.Year, value.Month, value.Day);
-			DateTime ageAsDateTime = DateTime.MinValue.Add(ageAsTimeSpan);
-			return new Age(ageAsDateTime.Year - 1, ageAsDateTime.Month - 1, ageAsDateTime.Day - 1);
+			DateTime now = DateTimeInfo.Current.GetNow();
+
+			int years = now.Year - value.Year;
+			int days = now.Day - value.Day;
+			int months = now.Month - value.Month;
+
+			if (days < 0) months--;
+
+			if (months < 0)
+			{
+				years--;
+				months += 12;
+			}
+
+			return new Age(years, months, days);
 		}
 	}
 }

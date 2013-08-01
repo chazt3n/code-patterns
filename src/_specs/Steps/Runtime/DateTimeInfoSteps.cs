@@ -52,7 +52,7 @@ namespace Patterns.Specifications.Steps.Runtime
 		[Given(@"I have a default DateTime abstraction")]
 		public void CreateDefaultDateTimeInfo()
 		{
-			_context.DateTimeInfo = new DefaultDateTimeInfo();
+			_context.DateTimeInfo = new DateTimeInfo();
 		}
 
 		[When(@"I try to resolve an IDateTimeInfo instance")]
@@ -68,17 +68,17 @@ namespace Patterns.Specifications.Steps.Runtime
 			_context.SystemNow = DateTime.Now;
 		}
 
-		[Then(@"the resolved IDateTimeInfo object should be an instance of DefaultDateTimeInfo")]
+		[Then(@"the resolved IDateTimeInfo object should be an instance of DateTimeInfo")]
 		public void AssertResolvedIDateTimeInfoIsDefault()
 		{
 			_context.DateTimeInfo.Should().NotBeNull();
-			_context.DateTimeInfo.GetType().Should().Be(typeof(DefaultDateTimeInfo));
+			_context.DateTimeInfo.GetType().Should().Be(typeof(DateTimeInfo));
 		}
 
 		[Then(@"the results of both ""now"" DateTime values should be equal")]
 		public void BothDateTimeResultsShouldEqual()
 		{
-			_context.CustomNow.Should().Be(_context.SystemNow);
+			_context.CustomNow.AccurateToOneSecond().Should().Be(_context.SystemNow.AccurateToOneSecond());
 		}
 	}
 }
