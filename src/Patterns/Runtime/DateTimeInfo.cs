@@ -30,8 +30,31 @@ namespace Patterns.Runtime
 	/// <summary>
 	/// 	Defines a default implementation of the <see cref="IDateTimeInfo" /> interface.
 	/// </summary>
-	public class DefaultDateTimeInfo : IDateTimeInfo
+	public class DateTimeInfo : IDateTimeInfo
 	{
+		/// <summary>
+		/// Gets or sets the current <see cref="IDateTimeInfo"/> selector.
+		/// </summary>
+		/// <value>
+		/// The current <see cref="IDateTimeInfo"/> selector.
+		/// </value>
+		public static Func<IDateTimeInfo> CurrentSelector { get; set; }
+
+		/// <summary>
+		/// Gets the current <see cref="IDateTimeInfo"/>.
+		/// </summary>
+		/// <value>
+		/// The current <see cref="IDateTimeInfo"/>.
+		/// </value>
+		public static IDateTimeInfo Current
+		{
+			get
+			{
+				var selector = CurrentSelector ?? (() => new DateTimeInfo());
+				return selector();
+			}
+		}
+
 		#region IDateTimeInfo Members
 
 		/// <summary>

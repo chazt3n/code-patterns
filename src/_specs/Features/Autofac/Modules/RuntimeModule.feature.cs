@@ -82,7 +82,7 @@ this.ScenarioSetup(scenarioInfo);
 #line 10
  testRunner.When("I try to resolve an IDateTimeInfo instance", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 11
- testRunner.Then("the resolved IDateTimeInfo object should be an instance of DefaultDateTimeInfo", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("the resolved IDateTimeInfo object should be an instance of DateTimeInfo", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }

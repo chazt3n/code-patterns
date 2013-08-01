@@ -28,6 +28,7 @@ using FluentAssertions;
 using Patterns.Runtime;
 using Patterns.Specifications.Models.Runtime;
 using Patterns.Values;
+
 using TechTalk.SpecFlow;
 
 namespace Patterns.Specifications.Steps.Runtime
@@ -45,7 +46,7 @@ namespace Patterns.Specifications.Steps.Runtime
 		[Given(@"I have a DateTime value")]
 		public void CreateFirstDateTime()
 		{
-			_context.FirstValue = DateTime.Now;
+			_context.FirstValue = DateTimeInfo.Current.GetNow();
 		}
 
 		[Given(@"I have a second DateTime value that varies from the first by (.*) milliseconds")]
@@ -76,10 +77,11 @@ namespace Patterns.Specifications.Steps.Runtime
 		[Given(@"I have a DateTime value set (.*) years, (.*) days, and (.*) months in the past")]
 		public void GivenIHaveADateTimeValueSetInThePast(int numberOfYears, int numberOfDays, int numberOfMonths)
 		{
-			_context.FirstValue =
-				DateTime.Now.AddYears(-(numberOfYears))
-				        .AddDays(-(numberOfDays))
-				        .AddMonths(-(numberOfMonths));
+			DateTime now = DateTimeInfo.Current.GetNow();
+
+			_context.FirstValue = now.AddYears(-(numberOfYears))
+				.AddDays(-(numberOfDays))
+				.AddMonths(-(numberOfMonths));
 		}
 
 		[When(@"I view the DateTime value as age")]

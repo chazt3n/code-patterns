@@ -1,4 +1,4 @@
-﻿namespace Patterns.Values
+namespace Patterns.Values
 {
 	/// <summary>
 	///     Model describing the age of a DateTime.
