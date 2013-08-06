@@ -21,42 +21,37 @@
 
 using System;
 
-namespace Patterns.Runtime
+using Patterns.Runtime;
+
+namespace Patterns.Values
 {
 	/// <summary>
-	///    Provides extensions for accessing and manipulating time-oriented constructs like <see cref="DateTime" /> and
-	///    <see
-	///       cref="TimeSpan" />
-	///    .
+	/// Provides extensions for working with value-based objects.
 	/// </summary>
-	public static class TimeExtensions
+	public static class ValueExtensions
 	{
 		/// <summary>
-		///    Returns a <see cref="DateTime" /> with the same <see cref="DateTime.Year" /> , <see cref="DateTime.Month" /> ,
-		///    <see
-		///       cref="DateTime.Day" />
-		///    , <see cref="DateTime.Hour" /> , <see cref="DateTime.Minute" /> , and
-		///    <see
-		///       cref="DateTime.Second" />
-		///    values.
-		/// </summary>
-		/// <param name="value"> The value. </param>
-		public static DateTime AccurateToOneSecond(this DateTime value)
-		{
-			return new DateTime(value.Year, value.Month, value.Day, value.Hour, value.Minute, value.Second);
-		}
-
-		/// <summary>
-		///    Returns a <see cref="DateTime" /> with the same <see cref="DateTime.Year" /> , <see cref="DateTime.Month" /> , and
-		///    <see
-		///       cref="DateTime.Day" />
-		///    values.
+		///    Converts the <see cref="DateTime"/> value to an <see cref="Age"/> value.
 		/// </summary>
 		/// <param name="value">The value.</param>
 		/// <returns></returns>
-		public static DateTime AccurateToOneDay(this DateTime value)
+		public static Age ToAge(this DateTime value)
 		{
-			return new DateTime(value.Year, value.Month, value.Day);
+			DateTime now = DateTimeInfo.Current.GetNow().AccurateToOneDay();
+
+			int years = now.Year - value.Year;
+			int days = now.Day - value.Day;
+			int months = now.Month - value.Month;
+
+			if (days < 0) months--;
+
+			if (months < 0)
+			{
+				years--;
+				months += 12;
+			}
+
+			return new Age(years, months, days);
 		}
 	}
 }

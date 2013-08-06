@@ -27,7 +27,6 @@ using System;
 using FluentAssertions;
 using Patterns.Runtime;
 using Patterns.Specifications.Models.Runtime;
-using Patterns.Values;
 
 using TechTalk.SpecFlow;
 
@@ -72,28 +71,6 @@ namespace Patterns.Specifications.Steps.Runtime
 		public void AssertDifferenceIsZero()
 		{
 			_context.Difference.Should().Be(TimeSpan.Zero);
-		}
-
-		[Given(@"I have a DateTime value set (.*) years, (.*) days, and (.*) months in the past")]
-		public void GivenIHaveADateTimeValueSetInThePast(int numberOfYears, int numberOfDays, int numberOfMonths)
-		{
-			DateTime now = DateTimeInfo.Current.GetNow();
-
-			_context.FirstValue = now.AddYears(-(numberOfYears))
-				.AddDays(-(numberOfDays))
-				.AddMonths(-(numberOfMonths));
-		}
-
-		[When(@"I view the DateTime value as age")]
-		public void WhenIViewTheDateTimeValueAsAge()
-		{
-			_context.Age = _context.FirstValue.ToAge();
-		}
-
-		[Then(@"the resulting age should be (.*) years, (.*) days, and (.*) months old")]
-		public void ThenTheResultingAgeShouldBeYearsDaysAndMonthsOld(int numberOfYears, int numberOfDays, int numberOfMonths)
-		{
-			_context.Age.ShouldBeEquivalentTo(new Age(numberOfYears, numberOfMonths, numberOfDays));
 		}
 	}
 }
