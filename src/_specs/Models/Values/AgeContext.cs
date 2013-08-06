@@ -21,42 +21,14 @@
 
 using System;
 
-namespace Patterns.Runtime
-{
-	/// <summary>
-	///    Provides extensions for accessing and manipulating time-oriented constructs like <see cref="DateTime" /> and
-	///    <see
-	///       cref="TimeSpan" />
-	///    .
-	/// </summary>
-	public static class TimeExtensions
-	{
-		/// <summary>
-		///    Returns a <see cref="DateTime" /> with the same <see cref="DateTime.Year" /> , <see cref="DateTime.Month" /> ,
-		///    <see
-		///       cref="DateTime.Day" />
-		///    , <see cref="DateTime.Hour" /> , <see cref="DateTime.Minute" /> , and
-		///    <see
-		///       cref="DateTime.Second" />
-		///    values.
-		/// </summary>
-		/// <param name="value"> The value. </param>
-		public static DateTime AccurateToOneSecond(this DateTime value)
-		{
-			return new DateTime(value.Year, value.Month, value.Day, value.Hour, value.Minute, value.Second);
-		}
+using Patterns.Values;
 
-		/// <summary>
-		///    Returns a <see cref="DateTime" /> with the same <see cref="DateTime.Year" /> , <see cref="DateTime.Month" /> , and
-		///    <see
-		///       cref="DateTime.Day" />
-		///    values.
-		/// </summary>
-		/// <param name="value">The value.</param>
-		/// <returns></returns>
-		public static DateTime AccurateToOneDay(this DateTime value)
-		{
-			return new DateTime(value.Year, value.Month, value.Day);
-		}
+namespace Patterns.Specifications.Models.Values
+{
+	public class AgeContext
+	{
+		public DateTime BirthDate { get; set; }
+
+		public Age Age { get; set; }
 	}
 }

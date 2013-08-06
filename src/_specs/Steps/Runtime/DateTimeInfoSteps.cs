@@ -31,6 +31,7 @@ using FluentAssertions;
 
 using Patterns.Runtime;
 using Patterns.Specifications.Models.Autofac;
+using Patterns.Specifications.Models.Mocking;
 using Patterns.Specifications.Models.Runtime;
 
 using TechTalk.SpecFlow;
@@ -42,17 +43,27 @@ namespace Patterns.Specifications.Steps.Runtime
 	{
 		private readonly DateTimeInfoContext _context;
 		private readonly AutofacContext _autofac;
+		private readonly MoqContext _moq;
 
-		public DateTimeInfoSteps(DateTimeInfoContext context, AutofacContext autofac)
+		public DateTimeInfoSteps(DateTimeInfoContext context, AutofacContext autofac, MoqContext moq)
 		{
 			_context = context;
 			_autofac = autofac;
+			_moq = moq;
 		}
 
 		[Given(@"I have a default DateTime abstraction")]
 		public void CreateDefaultDateTimeInfo()
 		{
 			_context.DateTimeInfo = new DateTimeInfo();
+		}
+
+		[Given(@"I am convinced that the current date is (.+)")]
+		public void SetCurrentDate(string currentDate)
+		{
+			var infoMock = _moq.Container.Mock<IDateTimeInfo>();
+			infoMock.Setup(info => info.GetNow()).Returns(DateTime.Parse(currentDate));
+			DateTimeInfo.CurrentSelector = () => infoMock.Object;
 		}
 
 		[When(@"I try to resolve an IDateTimeInfo instance")]

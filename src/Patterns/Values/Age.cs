@@ -1,7 +1,7 @@
 namespace Patterns.Values
 {
 	/// <summary>
-	///     Model describing the age of a DateTime.
+	///     Captures age as a measure of combined years, months, and days.
 	/// </summary>
 	public struct Age
 	{
