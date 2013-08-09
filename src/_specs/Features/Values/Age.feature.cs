@@ -71,6 +71,8 @@ namespace Patterns.Specifications.Features.Values
         [NUnit.Framework.TestCaseAttribute("8/1/2013", "8/1/1973", "40", "0", "0", null)]
         [NUnit.Framework.TestCaseAttribute("2/14/2010", "2/1/2000", "10", "0", "13", null)]
         [NUnit.Framework.TestCaseAttribute("1/15/2011", "12/15/2010", "0", "1", "0", null)]
+        [NUnit.Framework.TestCaseAttribute("8/9/2013", "7/31/2013", "0", "0", "9", null)]
+        [NUnit.Framework.TestCaseAttribute("8/9/2013", "6/20/2013", "0", "1", "20", null)]
         public virtual void ConversionFromDateTime(string someSpecificPointInTime, string someSpecificDateOfBirth, string years, string months, string days, string[] exampleTags)
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Conversion from DateTime", exampleTags);
@@ -93,7 +95,7 @@ this.ScenarioSetup(scenarioInfo);
         public virtual void ConversionFromTimeSpan()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Conversion from TimeSpan", ((string[])(null)));
-#line 23
+#line 25
 this.ScenarioSetup(scenarioInfo);
 #line hidden
             this.ScenarioCleanup();

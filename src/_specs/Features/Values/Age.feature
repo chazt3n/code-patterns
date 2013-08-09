@@ -13,6 +13,8 @@ Examples:
 	| 8/1/2013                    | 8/1/1973                    | 40    | 0      | 0    |
 	| 2/14/2010                   | 2/1/2000                    | 10    | 0      | 13   |
 	| 1/15/2011                   | 12/15/2010                  | 0     | 1      | 0    |
+	| 8/9/2013                    | 7/31/2013                   | 0     | 0      | 9    |
+	| 8/9/2013                    | 6/20/2013                   | 0     | 1      | 20   |
 
 # TODO: for issue #56, expand on this to capture previously observed anomaly points;
 # the main breakpoint will likely need to be in ValueExtensions.cs, line 46.
