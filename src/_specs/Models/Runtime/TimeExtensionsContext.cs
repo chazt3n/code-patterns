@@ -25,8 +25,6 @@
 
 using System;
 
-using Patterns.Values;
-
 namespace Patterns.Specifications.Models.Runtime
 {
 	public class TimeExtensionsContext
@@ -34,7 +32,6 @@ namespace Patterns.Specifications.Models.Runtime
 		public DateTime FirstValue { get; set; }
 		public DateTime SecondValue { get; set; }
 		public TimeSpan Difference { get; set; }
-		public Age Age { get; set; }
 
 		public void CalculateDifference()
 		{

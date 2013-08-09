@@ -96,6 +96,7 @@
     <Compile Include="Text\RegularExpressions\IRegexEvaluator.cs" />
     <Compile Include="Text\RegularExpressions\RegexEvaluator.cs" />
     <Compile Include="Values\Age.cs" />
+    <Compile Include="Values\ValueExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

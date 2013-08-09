@@ -21,42 +21,43 @@
 
 using System;
 
-namespace Patterns.Runtime
+using FluentAssertions;
+
+using Patterns.Specifications.Models.Values;
+using Patterns.Values;
+
+using TechTalk.SpecFlow;
+
+namespace Patterns.Specifications.Steps.Values
 {
-	/// <summary>
-	///    Provides extensions for accessing and manipulating time-oriented constructs like <see cref="DateTime" /> and
-	///    <see
-	///       cref="TimeSpan" />
-	///    .
-	/// </summary>
-	public static class TimeExtensions
+	[Binding]
+	public class AgeSteps
 	{
-		/// <summary>
-		///    Returns a <see cref="DateTime" /> with the same <see cref="DateTime.Year" /> , <see cref="DateTime.Month" /> ,
-		///    <see
-		///       cref="DateTime.Day" />
-		///    , <see cref="DateTime.Hour" /> , <see cref="DateTime.Minute" /> , and
-		///    <see
-		///       cref="DateTime.Second" />
-		///    values.
-		/// </summary>
-		/// <param name="value"> The value. </param>
-		public static DateTime AccurateToOneSecond(this DateTime value)
+		private readonly AgeContext _context;
+
+		public AgeSteps(AgeContext context)
 		{
-			return new DateTime(value.Year, value.Month, value.Day, value.Hour, value.Minute, value.Second);
+			_context = context;
 		}
 
-		/// <summary>
-		///    Returns a <see cref="DateTime" /> with the same <see cref="DateTime.Year" /> , <see cref="DateTime.Month" /> , and
-		///    <see
-		///       cref="DateTime.Day" />
-		///    values.
-		/// </summary>
-		/// <param name="value">The value.</param>
-		/// <returns></returns>
-		public static DateTime AccurateToOneDay(this DateTime value)
+		[Given(@"I have a birth date to examine that is (.+)")]
+		public void CreateBirthDate(string birthDate)
 		{
-			return new DateTime(value.Year, value.Month, value.Day);
+			_context.BirthDate = DateTime.Parse(birthDate);
+		}
+
+		[When(@"I convert the birth date to an age value")]
+		public void ConvertBirthDateToAge()
+		{
+			_context.Age = _context.BirthDate.ToAge();
+		}
+
+		[Then(@"the resulting age should have (\d+) years, (\d+) months, and (\d+) days")]
+		public void AssertAgeValues(int years, int months, int days)
+		{
+			_context.Age.Years.Should().Be(years);
+			_context.Age.Months.Should().Be(months);
+			_context.Age.Days.Should().Be(days);
 		}
 	}
 }

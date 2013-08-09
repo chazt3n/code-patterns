@@ -86,26 +86,6 @@ this.ScenarioSetup(scenarioInfo);
 #line hidden
             this.ScenarioCleanup();
         }
-        
-        [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("DateTime as age")]
-        [NUnit.Framework.TestCaseAttribute("4", "0", "0", "4", "0", "0", null)]
-        [NUnit.Framework.TestCaseAttribute("0", "4", "0", "0", "4", "0", null)]
-        [NUnit.Framework.TestCaseAttribute("0", "0", "4", "0", "0", "4", null)]
-        public virtual void DateTimeAsAge(string years, string days, string months, string expectedYears, string expectedDays, string expectedMonths, string[] exampleTags)
-        {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("DateTime as age", exampleTags);
-#line 13
-this.ScenarioSetup(scenarioInfo);
-#line 14
- testRunner.Given(string.Format("I have a DateTime value set {0} years, {1} days, and {2} months in the past", years, days, months), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 15
- testRunner.When("I view the DateTime value as age", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 16
- testRunner.Then(string.Format("the resulting age should be {0} years, {1} days, and {2} months old", expectedYears, expectedDays, expectedMonths), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line hidden
-            this.ScenarioCleanup();
-        }
     }
 }
 #pragma warning restore
