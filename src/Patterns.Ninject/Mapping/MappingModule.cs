@@ -21,29 +21,26 @@
 
 using AutoMapper;
 
-using Autofac;
+using Ninject.Modules;
 
 using Patterns.Mapping;
 
-namespace Patterns.Autofac.Mapping
+namespace Patterns.Ninject.Mapping
 {
-	/// <summary>
-	///     Provides an Autofac module that registers AutoMapper components.
-	/// </summary>
-	public class MappingModule : Module
+	internal class MappingModule : NinjectModule
 	{
-		protected override void Load(ContainerBuilder builder)
+		public override void Load()
 		{
-			builder.RegisterInstance(Mapper.Engine);
-			builder.RegisterInstance(Mapper.Configuration);
+			Bind<IMappingEngine>().ToConstant(Mapper.Engine);
+			Bind<IConfiguration>().ToConstant(Mapper.Configuration);
 
 			var configProvider = Mapper.Configuration as IConfigurationProvider;
 			if (configProvider != null)
 			{
-				builder.RegisterInstance(configProvider);
+				Bind<IConfigurationProvider>().ToConstant(configProvider);
 			}
 
-			builder.RegisterType<MappingServices>().As<IMappingServices>();
+			Bind<IMappingServices>().To<MappingServices>();
 		}
 	}
 }

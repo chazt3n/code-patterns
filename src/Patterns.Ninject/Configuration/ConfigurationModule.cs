@@ -19,31 +19,22 @@
 // NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-using AutoMapper;
+using System;
 
-using Autofac;
+using Ninject.Modules;
 
-using Patterns.Mapping;
+using Patterns.Configuration;
 
-namespace Patterns.Autofac.Mapping
+namespace Patterns.Ninject.Configuration
 {
-	/// <summary>
-	///     Provides an Autofac module that registers AutoMapper components.
-	/// </summary>
-	public class MappingModule : Module
+	internal class ConfigurationModule : NinjectModule
 	{
-		protected override void Load(ContainerBuilder builder)
+		public override void Load()
 		{
-			builder.RegisterInstance(Mapper.Engine);
-			builder.RegisterInstance(Mapper.Configuration);
-
-			var configProvider = Mapper.Configuration as IConfigurationProvider;
-			if (configProvider != null)
-			{
-				builder.RegisterInstance(configProvider);
-			}
-
-			builder.RegisterType<MappingServices>().As<IMappingServices>();
+			Bind<IConfigurationManager>().To<ConfigurationManagerWrapper>();
+			Bind<Func<System.Configuration.Configuration, IConfiguration>>()
+				.ToMethod(context => config => new ConfigurationWrapper(config));
+			Bind<IConfigurationSource>().To<ConfigurationSource>();
 		}
 	}
 }

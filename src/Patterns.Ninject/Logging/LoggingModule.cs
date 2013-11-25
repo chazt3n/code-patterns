@@ -1,4 +1,4 @@
-// Copyright (c) 2013, The Tribe
+﻿// Copyright (c) 2013, The Tribe
 // All rights reserved.
 // 
 // Redistribution and use in source and binary forms, with or without modification, are permitted provided that
@@ -20,27 +20,24 @@
 // POSSIBILITY OF SUCH DAMAGE.
 
 using System;
-using System.Linq;
-
-using Autofac;
-using Autofac.Core;
-using Autofac.Core.Registration;
+using System.Collections.Generic;
+using System.Data;
 
 using Common.Logging;
 
-using Patterns.Autofac.Configuration;
+using Ninject;
+using Ninject.Modules;
+using Ninject.Planning.Bindings;
+
 using Patterns.Configuration;
 using Patterns.Logging;
 
-namespace Patterns.Autofac.Logging
+namespace Patterns.Ninject.Logging
 {
-	/// <summary>
-	///     Provides packaged registration instructions for the Patterns.Logging namespace.
-	/// </summary>
-	public class LoggingModule : Module
+	internal class LoggingModule : NinjectModule
 	{
 		/// <summary>
-		///     The default log factory.
+		///     The default log factory
 		/// </summary>
 		public static readonly Func<Type, ILog> DefaultLogFactory = type => LogManager.GetLogger(type);
 
@@ -56,35 +53,38 @@ namespace Patterns.Autofac.Logging
 			_logFactory = logFactory;
 		}
 
-		protected override void Load(ContainerBuilder builder)
+		/// <summary>
+		///     Loads the module into the kernel.
+		/// </summary>
+		public override void Load()
 		{
-			builder.Register(context => _logFactory);
-			builder.Register(context =>
+			Bind<Func<Type, ILog>>().ToConstant(_logFactory);
+			Bind<LoggingInterceptor>().ToSelf();
+			Bind<ILog>().ToMethod(context => LogManager.GetLogger(context.Request.Target.Type));
+
+			//If no bindings are found for configuration source, set our flag to false.
+			IEnumerable<IBinding> bindings = Kernel.GetBindings(typeof (IConfigurationSource));
+			bool configSourceRegistered = bindings != null;
+			Kernel.Settings.AllowNullInjection = true;
+
+			Bind<ILoggingConfig>().ToMethod(context =>
 			{
 				try
 				{
-					var configSource = context.ResolveOptional<IConfigurationSource>();
-					LoggingConfig config = configSource != null
-						                       ? configSource.GetSection<LoggingConfig>(LoggingConfig.SectionName)
-						                       : null;
-					return config ?? new LoggingConfig();
-				}
-				catch (ComponentNotRegisteredException registrationError)
-				{
-					throw ErrorBuilder.BuildContainerException(registrationError, ConfigurationResources.MissingConfigSourceErrorHint);
-				}
-			}).As<ILoggingConfig>();
-			builder.RegisterType<LoggingInterceptor>();
-		}
+					//If IConfigurationSource has been registered, pull it into this variable. Otherwise, leave this null.
+					IConfigurationSource configSource = configSourceRegistered ? Kernel.Get<ConfigurationSource>() : null;
 
-		protected override void AttachToComponentRegistration(IComponentRegistry componentRegistry,
-			IComponentRegistration registration)
-		{
-			registration.Preparing += (sender, args) => args.Parameters = args.Parameters.Concat(new[]
-			{
-				new ResolvedParameter((info, context) => info.ParameterType == typeof (ILog),
-				                                                              (info, context) =>
-				                                                              _logFactory(info.Member.DeclaringType))
+					LoggingConfig loggingConfig = configSource != null
+						                              ? configSource.GetSection<LoggingConfig>(LoggingConfig.SectionName)
+						                              : null;
+					return loggingConfig ?? new LoggingConfig();
+				}
+				catch
+				{
+					//TODO: Create Ninject error builder.
+					//throw ErrorBuilder.BuildContainerException(registrationError, ConfigurationResources.MissingConfigSourceErrorHint);
+					throw new DataException();
+				}
 			});
 		}
 	}
