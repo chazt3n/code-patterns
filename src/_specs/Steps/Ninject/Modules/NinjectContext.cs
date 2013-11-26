@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2013, The Tribe
+// Copyright (c) 2013, The Tribe
 // All rights reserved.
 // 
 // Redistribution and use in source and binary forms, with or without modification, are permitted provided that
@@ -19,17 +19,19 @@
 // NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-using Ninject.Modules;
+using Ninject;
 
-using Patterns.Runtime;
+using Patterns.Ninject.Modules;
 
-namespace Patterns.Ninject.Modules
+namespace Patterns.Specifications.Steps.Ninject.Modules
 {
-	public class RuntimeModule : NinjectModule
+	public class NinjectContext
 	{
-		public override void Load()
+		public NinjectContext()
 		{
-			Bind<IDateTimeInfo>().To<DefaultDateTimeInfo>();
+			Kernel = new StandardKernel(new RuntimeModule());
 		}
+
+		public IKernel Kernel { get; set; }
 	}
 }

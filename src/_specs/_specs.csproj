@@ -65,8 +65,14 @@
     <Reference Include="Moq">
       <HintPath>..\packages\Moq.4.0.10827\lib\NET40\Moq.dll</HintPath>
     </Reference>
+    <Reference Include="Ninject">
+      <HintPath>..\packages\Ninject.3.0.2-unstable-9039\lib\net40\Ninject.dll</HintPath>
+    </Reference>
     <Reference Include="nunit.framework, Version=2.6.2.12296, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
       <HintPath>..\packages\NUnit.2.6.2\lib\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="Patterns.Ninject">
+      <HintPath>..\Patterns.Ninject\bin\Debug\Patterns.Ninject.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
@@ -123,6 +129,11 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>MappingServices.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Features\Ninject\Modules\RuntimeModule.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RuntimeModule.feature</DependentUpon>
     </Compile>
     <Compile Include="Features\Reflection\GetPropertyValues.feature.cs">
       <AutoGen>True</AutoGen>
@@ -222,6 +233,8 @@
     <Compile Include="Steps\Logging\MockVerificationSteps.cs" />
     <Compile Include="Steps\Logging\TestLoggingModule.cs" />
     <Compile Include="Steps\Mapping\MappingSteps.cs" />
+    <Compile Include="Steps\Ninject\Modules\NinjectContext.cs" />
+    <Compile Include="Steps\Ninject\Modules\RuntimeModuleSteps.cs" />
     <Compile Include="Steps\ObjectSteps.cs" />
     <Compile Include="Steps\Reflection\PropertyValueSteps.cs" />
     <Compile Include="Steps\Runtime\DateTimeInfoSteps.cs" />
@@ -274,6 +287,10 @@
     <None Include="Features\Mapping\MappingServices.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>MappingServices.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Features\Ninject\Modules\RuntimeModule.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>RuntimeModule.feature.cs</LastGenOutput>
     </None>
     <None Include="Features\Reflection\GetPropertyValues.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>

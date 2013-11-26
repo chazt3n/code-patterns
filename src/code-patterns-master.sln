@@ -27,6 +27,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Patterns.Testing.Autofac", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Patterns.Ninject", "Patterns.Ninject\Patterns.Ninject.csproj", "{6136794D-8C3C-4F95-8E3C-686DABEEEAA4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Patterns.Testing.Ninject", "Patterns.Testing.Ninject\Patterns.Testing.Ninject.csproj", "{30063BAC-F881-4294-A152-034642CB6795}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -57,12 +59,16 @@ Global
 		{6136794D-8C3C-4F95-8E3C-686DABEEEAA4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6136794D-8C3C-4F95-8E3C-686DABEEEAA4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6136794D-8C3C-4F95-8E3C-686DABEEEAA4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{30063BAC-F881-4294-A152-034642CB6795}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{30063BAC-F881-4294-A152-034642CB6795}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{30063BAC-F881-4294-A152-034642CB6795}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{30063BAC-F881-4294-A152-034642CB6795}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		CodeStyleEnforcer_Active = -1
 		CodeStyleEnforcer_RulesLocation = 1
+		CodeStyleEnforcer_Active = -1
 	EndGlobalSection
 EndGlobal

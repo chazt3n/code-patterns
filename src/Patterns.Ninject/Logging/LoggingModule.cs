@@ -34,7 +34,7 @@ using Patterns.Logging;
 
 namespace Patterns.Ninject.Logging
 {
-	internal class LoggingModule : NinjectModule
+	public class LoggingModule : NinjectModule
 	{
 		/// <summary>
 		///     The default log factory
@@ -65,13 +65,12 @@ namespace Patterns.Ninject.Logging
 			//If no bindings are found for configuration source, set our flag to false.
 			IEnumerable<IBinding> bindings = Kernel.GetBindings(typeof (IConfigurationSource));
 			bool configSourceRegistered = bindings != null;
-			Kernel.Settings.AllowNullInjection = true;
 
 			Bind<ILoggingConfig>().ToMethod(context =>
 			{
 				try
 				{
-					//If IConfigurationSource has been registered, pull it into this variable. Otherwise, leave this null.
+					//TODO: Handle this optional business. What do we want to do if this hasn't been loaded? Should we inject a blank loggingConfig? A default?
 					IConfigurationSource configSource = configSourceRegistered ? Kernel.Get<ConfigurationSource>() : null;
 
 					LoggingConfig loggingConfig = configSource != null
