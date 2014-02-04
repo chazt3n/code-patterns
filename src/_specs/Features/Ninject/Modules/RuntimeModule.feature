@@ -3,7 +3,7 @@
 	and get the default implementations of each public interface defined in
 	the Patterns.Runtime namespace.
 
-@autofac
+@ninject
 Scenario: Runtime - IDateTimeInfo
 	Given I have registered the runtime ninject module
 	And I have created the Autofac container

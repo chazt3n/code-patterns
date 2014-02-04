@@ -6,6 +6,5 @@ Feature: Runtime Module
 @autofac
 Scenario: Runtime - IDateTimeInfo
 	Given I have registered the runtime module
-	And I have created the Autofac container
 	When I try to resolve an IDateTimeInfo instance
 	Then the resolved IDateTimeInfo object should be an instance of DefaultDateTimeInfo

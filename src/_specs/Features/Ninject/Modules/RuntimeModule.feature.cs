@@ -68,11 +68,11 @@ namespace Patterns.Specifications.Features.Ninject.Modules
         
         [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("Runtime - IDateTimeInfo")]
-        [NUnit.Framework.CategoryAttribute("autofac")]
+        [NUnit.Framework.CategoryAttribute("ninject")]
         public virtual void Runtime_IDateTimeInfo()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Runtime - IDateTimeInfo", new string[] {
-                        "autofac"});
+                        "ninject"});
 #line 7
 this.ScenarioSetup(scenarioInfo);
 #line 8

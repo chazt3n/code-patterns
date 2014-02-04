@@ -1,4 +1,6 @@
-﻿using TechTalk.SpecFlow;
+﻿using FluentAssertions;
+
+using TechTalk.SpecFlow;
 
 namespace Patterns.Specifications.Steps.Ninject.Modules
 {
@@ -14,8 +16,8 @@ namespace Patterns.Specifications.Steps.Ninject.Modules
 
 	    [Given(@"I have registered the runtime ninject module")]
         public void GivenIHaveRegisteredTheRuntimeNinjectModule()
-        {
-            ScenarioContext.Current.Pending();
-        }
+	    {
+		    _context.Kernel.HasModule("RunTimeModule").Should().BeTrue("The runtime module should have been loaded");
+	    }
     }
 }
